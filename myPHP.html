@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>My first PHP</title>
+
+<style>
+table, th, td{
+	border:1px solid black;
+    border-collapse:collapse;
+}
+</style>
+
+<?php
+$cookie_name = "user";
+$cookie_value = "John Doe";
+setcookie($cookie_name, $cookie_value, time() + (400 * 30), "/");
+
+session_start();
+?>
+
+</head>
+
+<body>
+
+<h1>My first PHP page</h1>
+
+<form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
+  Name: <input type="text" name="fname">
+  <input type="submit">
+</form>
+<br>
+
+<form action="welcome.php" method="post">
+Username: <input type="text" name="name"><br>
+E-mail: <input type="text" name="email"><br>
+<input type="submit">
+</form>
+
+Welcome <?php echo $_POST["name"]; ?><br>
+Your email address is: <?php echo $_POST["email"]; ?>
+
+<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+Name: <input type="text" name="name" value=<?php echo $name;?>><br>
+<span class="error"> <?php echo $nameErr;?></span><br>
+E-mail: <input type="text" name="email" value=<?php echo $email;?>><br>
+<span class="error"><?php echo $emaliErr;?></span><br>
+Website: <input type="text" name="website" value=<?php echo $website;?>><br>
+<span class="error"><?php echo $websiteErr;?></span>
+Comment: <textarea name="comment" rows="5" cols="40" value=></textarea><br>
+Gender:
+<input type="radio" name="gender" value="female">Female
+<input type="radio" name="gender" value="male">Male
+<input type="submit"></input>
+</form><br>
+
+<form action="upload.php" method="post" enctype="multipart/form-data">
+    Select image to upload:<br>
+    <input type="file" name="fileToUpload" id="fileToUpload"><br>
+    <input type="submit" value="Upload Image" name="submit"><br>
+</form>
+
+<br>
+<table>
+<tr>
+<th>ID</th>
+<th>Name</th>
+</tr>
+<tr>
+<td>1</td>
+<td>John</td>
+</tr>
+<?php
+  foreach (filter_list() as $id =>$filter) {
+      echo '<tr><td>' . $filter . '</td><td>' . filter_id($filter) . '</td></tr>';
+  }
+?>
+</table>
+
+<?php
+class Bike{
+	public $model;
+    public $version;
+    function set_model($modelVar){
+    	$this->model=$modelVar;
+    }
+    function get_model(){
+    	return $this->model;
+    }
+    function get_version(){
+		return $version;
+    }
+}
+class Fruit{
+	public $fruitname;
+ 	protected $is_ripe;
+    public static $price=10;
+    function __construct($name, $is_ripe){
+    	$this->fruitname=$name;
+    }
+    function __destruct(){
+    	echo $this->fruitname." destroyed <br>";
+    }
+    function get_fruitname(){
+    	return $this->fruitname;
+    }
+    function get_is_ripe(){
+    	return $this->is_ripe;
+    }
+    protected function sell_fruit(){
+    	echo "sell ".$this->fruitname."<br>";
+    }
+    static function buy_fruit(){
+		echo "buy some fruit<br>";
+    }
+    function get_price(){
+    	return self::$price;
+    }
+}
+class Berry extends Fruit{
+	function __destruct(){
+		echo $this->fruitname." destroyed (berry)<br>";
+    }
+	function get_berryname(){
+    	return $this->fruitname." is a berry<br>";
+    }
+	function sell_berry(){
+		$this->sell_fruit();
+    }
+}
+trait Work{
+	function goto_work(){
+    	echo "going to work <br>";
+	}
+}
+abstract class Person{
+	abstract function intro();
+}
+class Manager extends Person{
+	use Work;
+	function intro(){
+    	echo "I'm a manager <br>";
+        $this->goto_work();
+    }
+}
+class Employee extends Person{
+	function intro(){
+    	echo "I'm an employee <br>";
+    }
+}
+
+// define variables and set to empty values
+$nameErr = $emailErr = $genderErr = $websiteErr = $genderErr= "";
+$name = $email = $gender = $comment = $website = "";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  if (empty($_POST["name"])) {
+    $nameErr = "Name is required";
+  } 
+  else {
+    $name = test_input($_POST["name"]);
+    if (!preg_match("/^[a-zA-Z ]*$/",$name)) {
+  		$nameErr = "Only letters and white space allowed";
+	}
+  }
+
+  if (empty($_POST["email"])) {
+    $emailErr = "Email is required";
+  } 
+  else {
+    $email = test_input($_POST["email"]);
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+  		$emailErr = "Invalid email format";
+	}
+  }
+
+  if (empty($_POST["website"])) {
+    $website = "";
+  } 
+  else {
+    $website = test_input($_POST["website"]);
+    if (!preg_match("/\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i",$website)) {
+  		$websiteErr = "Invalid URL";
+	}
+  }
+
+  if (empty($_POST["comment"])) {
+    $comment = "";
+  } else {
+    $comment = test_input($_POST["comment"]);
+  }
+
+  if (empty($_POST["gender"])) {
+    $genderErr = "Gender is required";
+  } else {
+    $gender = test_input($_POST["gender"]);
+  }
+}
+?>
+
+<?php
+class Car{
+	function Car(){
+		$this->model="Volvo";
+    }
+}
+
+$textcolor;
+$textcolor="cyan";
+echo "Hello World! <br>";
+echo "Color is:".$textcolor."<br>";
+func1();
+echo (string)$x1;
+echo "<h2>Sub Heading</h2>";
+$car1 = new Car();
+echo $car1->model;
+$var1=5;
+$var2=10;
+
+
+function func1(){
+	global $x1;
+    $x1=1;
+    echo "x1=".$x1."<br>";
+    echo "Color is:".$textcolor."<br>";
+};
+ 
+function func2(){
+	$GLOBALS['var3'] = $GLOBALS['var1'] + $GLOBALS['var2'];
+};
+func2();
+echo $var3."<br>";
+
+echo $_SERVER['PHP_SELF'];
+echo "<br>";
+echo $_SERVER['SERVER_NAME'];
+echo "<br>";
+echo $_SERVER['HTTP_HOST'];
+echo "<br>";
+echo $_SERVER['HTTP_REFERER'];
+echo "<br>";
+echo $_SERVER['HTTP_USER_AGENT'];
+echo "<br>";
+echo $_SERVER['SCRIPT_NAME'];
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // collect value of input field
+    $name = htmlspecialchars($_REQUEST['fname']);
+    if (empty($name)) {
+        echo "Name is empty";
+    } else {
+        echo $name;
+    }
+}
+
+$hourvn=date("h")+7;
+echo date("0$hourvn:m:sa")."<br>"; 
+echo date("d/m/Y")."<br>";
+$d=strtotime("10:30pm April 15 2014");
+echo "Created date is " . date("Y-m-d h:i:sa", $d)."<br>";
+
+/*
+include "footer.php";
+echo readfile("webdirectory.txt");
+$file1=fopen("webdirectory.txt","r") or die ("file not found"); 
+fread($myfile,filesize("webdictionary.txt"));
+fclose("webdirectory.txt");
+
+$file2=fopen("testfile.txt","w") or die ("unable to open file");
+echo "open file";
+fwrite($file2,"John Doe");
+*/
+
+$target_dir = "uploads/";
+$target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+$uploadOk = 1;
+$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+// Check if image file is a actual image or fake image
+if(isset($_POST["submit"])) {
+    $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+    if($check !== false) {
+        echo "File is an image - " . $check["mime"] . ".";
+        $uploadOk = 1;
+    } else {
+        echo "File is not an image.";
+        $uploadOk = 0;
+    }
+}
+if (file_exists($target_file)) {
+    echo "Sorry, file already exists.";
+    $uploadOk = 0;
+}
+if ($_FILES["fileToUpload"]["size"] > 500000) {
+    echo "Sorry, your file is too large.";
+    $uploadOk = 0;
+}
+if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+&& $imageFileType != "gif" ) {
+    echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed";
+    $uploadOk = 0;
+}
+echo "some text <br>";
+
+if(!isset($_COOKIE[$cookie_name])) {
+    echo "Cookie named '" . $cookie_name . "' is not set!";
+} else {
+    echo "Cookie '" . $cookie_name . "' is set!<br>";
+    echo "Value is: " . $_COOKIE[$cookie_name]."<br>";
+}
+
+$_SESSION['color'] = "blue";
+$_SESSION['animal'] = "horse";
+echo "session varible are set";
+echo "Favorite color is " . $_SESSION["color"] . ".<br>";
+print_r ($_SESSION);
+//session_destroy();
+echo "some text <br>";
+
+$unfilteredText="<p>Hello World</p>";
+echo $unfilteredText;
+$filteredText = filter_var($unfilteredText,FILTER_SANITIZE_STRING);
+echo $filteredText."<br>";
+$validateVar="2001:0db8:85a3:08d3:1319:8a2e:0370:7334";
+if ((!filter_var($validateVar, FILTER_VALIDATE_INT) === false)&&($validateVar===15)) {
+    echo("validateVar is an integer <br>");
+} 
+if (!filter_var($validateVar, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) === false) {
+    echo("validateVar is an IP V6 <br>");
+} 
+if (!filter_var($validateVar, FILTER_VALIDATE_EMAIL) === false) {
+    echo("validateVar is an email <br>");
+} 
+if (!filter_var($validateVar, FILTER_VALIDATE_URL) === false) {
+    echo("validateVar is an URL <br>");
+} 
+$var5=2;
+
+$profile1=array("a","b");
+//echo json_encode($profile);
+
+$bike1 = new Bike();
+$bike1 -> set_model("Honda");
+echo $bike1 -> get_model()."<br>";
+var_dump($bike1 instanceof Bike);
+
+$banana = new Fruit("banana",true);
+echo $banana->get_fruitname()."<br>";
+echo $banana->get_is_ripe()."<br>";
+Fruit::buy_fruit();
+Berry::buy_fruit();
+echo $banana->Get_price();
+$strawberry = new Berry("strawberry", false);
+echo $strawberry->get_berryname();
+$strawberry->sell_berry();
+$person1 = new manager();
+$person1->intro(); 
+$person2 = new employee();
+$person2->intro();
+
+
+?> 
+
+
+</body>
+</html>
