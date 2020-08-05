@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js">>
+
+class Vehicle{
+	constructor(x){
+		this.name=x;
+    }
+    static Start(x){
+    	return "Start "+x.name;
+    }
+    Stop(){
+    	return "Stop "+this.name;
+    }   
+    get vname(){
+		return this.name;
+    }
+    set vname(x){
+    	this.name=x;
+    }
+}
+class Car extends Vehicle{
+	constructor(x,y){
+    	super(x);
+        this.model=y;
+    }
+}    
+
+function SqrRoot(x){
+	return Math.sqrt(x);
+}
+
+(function CS(){
+	document.write("I called myself");
+})();
+
+function FindMax(x){
+	var max= x[0];
+    for(i=1;i<x.length;i++){
+		if(x[i]>max) max=x[i];
+    }
+    return max;
+}
+
+function Change(){
+	document.getElementById("button1").style.color="cyan";
+}
+function InfoBoxes(){
+	window.confirm("confirm textbox");
+	window.prompt("prompt textbox");
+}
+
+function LoadDoc(){
+	var ajax =new XMLHttpRequest();
+    var obj = { table: "customers", limit: 5 };
+    ajax.onreadystatechange=function(){
+		CallBack3(this);
+    };
+    ajax.open("GET","json_demo_db_post.php",true);
+    ajax.send();
+}
+function CallBack1(xml){
+	document.getElementById("text8").innerHTML=xml.responseText;
+}
+function CallBack2(xml){
+    var x=xml.responseXML.getElementsByTagName("CD");
+	document.getElementById("text8").innerHTML=
+    x[0].getElementsByTagName("ARTIST")[0].childNodes[0].nodeValue;
+}
+function CallBack3(xml){	
+	document.getElementById("text8").innerHTML=
+	JSON.parse(xml.responseText).name;
+}
+
+</script>
+</head>
+
+<body>
+
+<p id="text1" style="font-size:30px;background-color:cyan"></p>
+<p id="text2"></p>
+<p id="text3"></p>
+<p id="text4"></p>
+<p id="text5"></p>
+<div id="parent">
+<p id="text6"></p>
+</div>
+<p id="text7"></p>
+<p id="text8"></p>
+<p id="text9"></p>
+
+<p id="text10"></p>
+<p id="text11" style="display:none"></p>
+
+<button id="button1" onclick="Change()">Click me</button>
+
+<button onclick="document.getElementById('text1').innerHTML='Hello Java Script'">Change Content</button>
+<button onmouseover="document.getElementById('text1').style.color='cyan'">Change Style</button>
+
+<button onclick="window.location.assign('https://ctt-daotao.hust.edu.vn/')">HUST</button>
+<button onclick="window.history.back">Go Back</button>
+<button onclick="timer=setTimeout(InfoBoxes,2000)">Info Boxes</button>
+
+<button onclick=LoadDoc()>Activate AJAX</button>
+
+<script>
+//"use strict";
+document.getElementById("text1").innerHTML=("Hello World");
+document.getElementById("text1").addEventListener("click",Change);
+bike1=new Vehicle("Bike1");
+car1=new Car("Volvo","V2");
+document.getElementById("text2").innerHTML=Car.Start(car1);
+document.getElementById("text3").innerHTML=JSON.stringify(car1);
+var arr=[1,3,4,9,2];
+document.getElementById("text4").innerHTML=FindMax(arr);
+
+var person={
+    fullname: function(){
+		return this.fname+" "+this.lname;
+    }
+}
+var person1={
+	fname:"John",
+    lname:"Doe"
+}
+var name=person.fullname.call(person1);
+document.getElementById("text5").innerHTML=name;
+
+document.getElementsByTagName("p")[4].innerHTML="use tag name";
+document.getElementById("parent").firstChild.nodeValue="firstChild";
+
+var co1=document.getElementsByTagName("p");
+var co2=document.querySelectorAll("p");
+document.getElementById("text6").innerHTML=co2[2].innerHTML;
+
+document.getElementById("text7").innerHTML="Content:"+
+"<br>width: "+window.innerWidth+
+"<br>height: "+screen.height+
+"<br>colordepth: "+screen.colorDepth+
+"<br>link: "+window.location+
+"<br>appName: "+navigator.appName;
+
+var myObj1 = { name: "John", age: 31, city: "New York" };
+var myJSON = JSON.stringify(myObj1);
+localStorage.setItem("testJSON",myJSON);
+localStorage.getItem("testJSON");
+document.getElementById("text9").innerHTML=(JSON.parse(myJSON).name); 
+
+var JSONobj = '{"fullname":"John Doe","age":"20"}'
+var myObj2=JSON.parse(JSONobj);
+document.getElementById("text9").innerHTML=(myObj2.age);
+JSONobj.fullname="Jane Doe";
+document.write("<br>"+JSON.parse(JSONobj).fullname);
+
+var arr=["alpha","belta"];
+var JSONarr=JSON.stringify(arr);
+document.write("<br>"+JSON.parse(JSONarr));
+
+</script>
+
+<script>
+$("#text10").text("The text in the first paragraph is: ");
+$(document).ready(function() {
+  $("#text10").text("Hello Sweden!");
+  $("#text11").text($("#text10").text());
+  $("#text11").show();
+});
+</script>
+</body>
+</html>
+
+</body>
+</html>
