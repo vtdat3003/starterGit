@@ -40,15 +40,30 @@ return [
         ],
 
         'mysql' => [
+            'read' => [
+                'host' => [
+                    '127.0.0.1',
+                    '192.168.64.2',
+                    'localhost',
+                ],     
+            ],
+            'write' => [
+                'host' => [
+                    '127.0.0.1',
+                    '192.168.64.2',
+                    'localhost',
+                ],
+            ],
+            'sticky' => true,
             'driver' => 'mysql',
-            'host' => env('DB_HOST', 'localhost:8080'),
-            'port' => env('DB_PORT', '3306'),
-            'database' => env('DB_DATABASE', 'test'),
-            'username' => env('DB_USERNAME', 'root'),
-            'password' => env('DB_PASSWORD', ''),
-            'unix_socket' => '/qwerty/lar-53/lar-53/mysql/mysql.sock',
-            'charset' => 'utf8',
-            'collation' => 'utf8_unicode_ci',
+            'host' => 'localhost',
+            'port' => '3306',
+            'database' => 'College',
+            'username' => 'root',
+            'password' => '',
+            'unix_socket' => '',
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
             'prefix' => '',
             'strict' => false,
             'engine' => null,
